@@ -47,7 +47,7 @@ class App extends Component {
   renderUser({userData, userPic, userAverage}) {
     return(
       <div> 
-        <User className="userCard"
+        <User
           userInfo={userData}
           userPic={userPic}
           userAverage={userAverage}
