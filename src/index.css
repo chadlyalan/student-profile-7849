@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -38,4 +40,17 @@ code {
 
 p {
   margin: 5px;
+}
+
+.searchBox {
+  width: 100%;
+  
+}
+
+.searchBox .searchBar {
+  width: 100%;
+  display:block;
+  padding: 10px;
+  font-family: 'Raleway';
+  font-size: larger;
 }

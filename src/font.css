@@ -1,0 +1,7 @@
+/* File: font.css */
+
+@font-face {
+    font-family: 'Raleway', sans-serif;
+    src: local('Raleway'),
+        url('./font/Raleway/static/Raleway-Regular.ttf') format('ttf')
+}

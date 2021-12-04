@@ -1,6 +1,6 @@
 import { React, Component } from 'react';
 import User from './User'
-import './App.css';
+
 
 const api = "https://api.hatchways.io/assessment/students"
 
@@ -8,7 +8,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      jsonUsers: []
+      jsonUsers: [],
+      query: '',
     }
   }
 
@@ -56,21 +57,48 @@ class App extends Component {
     )
   }
 
+  search = (event) => {
+
+  }
+
   render () {
-    const {jsonUsers} = this.state;
+    const {jsonUsers, query} = this.state;
 
     return (
       <div className="App">
-        
+        <div className = "searchBox">
+          <input 
+            type="text"
+            className="searchBar"
+            placeholder="Search by name"
+            onChange={e => this.setState({query: e.target.value})}
+            
+            value={query}
+          />
+        </div>
         {
-          jsonUsers.map((user, index) => (
+          jsonUsers.filter((item) => {
+            if (query === '') {
+              console.log(item)
+              return item;
+            }
+            else if (item.firstName.toLowerCase().includes(query.toLowerCase())) {
+              return item
+            }
+            else if (item.lastName.toLowerCase().includes(query.toLowerCase())) {
+              return item
+            }
+            else {
+              return null;
+            }
+          }).map((user, index) => (
             <div key={index}>
               {this.renderUser({
                 userData: user,
                 userPic: this.getUserPic(user),
                 userAverage: this.getUserAverage(user.grades),
               })}
-              {console.log(user)}
+              
             </div>
           ))
         }
