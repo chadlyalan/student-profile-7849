@@ -10,6 +10,7 @@ class App extends Component {
     this.state = {
       jsonUsers: [],
       query: '',
+      tag: '',
     }
   }
 
@@ -44,24 +45,40 @@ class App extends Component {
     return grades.reduce((a,b) => (Number(a) + Number(b))) / grades.length;
   }
 
-  renderUser({userData, userPic, userAverage}) {
+  // handleTagSearch = (childData) => {
+  //   this.setState({tag: childData})
+  // }
+
+  renderUser({userData, userPic, userAverage, tagData}) {
+    userData.tag = tagData;
+    console.log(userData);
+   
+
     return(
       <div> 
         <User
           userInfo={userData}
           userPic={userPic}
           userAverage={userAverage}
+          parentHandle={this.handleTagSearch}
         />
       </div>
     )
   }
 
   render () {
-    const {jsonUsers, query} = this.state;
+    const {jsonUsers, query, tag} = this.state;
 
     return (
       <div className="App">
         <div className = "searchBox">
+          <input 
+            type="text"
+            className="searchBar"
+            placeholder="Search by name"
+            onChange={e => this.setState({query: e.target.value})}
+            value={query}
+          />
           <input 
             type="text"
             className="searchBar"
@@ -91,12 +108,15 @@ class App extends Component {
                 userPic: this.getUserPic(user),
                 userAverage: this.getUserAverage(user.grades),
                 userGrades: user.grades,
+                tagData: tag,
+                })
+                  
+                }
                 
-              })}
             </div>
           ))
         }
-        {/* {JSON.stringify(jsonUsers, null, 2) }  */}
+      
       </div>
     );
   }

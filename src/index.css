@@ -44,10 +44,9 @@ p {
 
 .searchBox {
   width: 100%;
-  
 }
 
-.searchBox .searchBar {
+.searchBox input {
   width: 100%;
   display:block;
   padding: 10px;
@@ -73,4 +72,15 @@ p {
 .userCard .toggle button:hover {
   font-weight: bold;
   color:rgb(0, 0, 0)
+}
+
+.userCard .userInfo .tags {
+  display: flex;
+}
+
+.userCard .userInfo .tags div {
+  background-color: rgba(0, 0, 0, 0.212);
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px 5px 5px 5px;
 }

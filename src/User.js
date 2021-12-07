@@ -5,7 +5,8 @@ class User extends Component {
         super(props);
         this.state = {
             loadGrades: false,
-            buttonValue: '+'
+            buttonValue: '+',
+            tagSearch: '',
         }
     }
 
@@ -22,11 +23,35 @@ class User extends Component {
             this.setState({buttonValue: '+'})
     }
 
+    onTrigger = (event) => {
+        const {userInfo} = this.props;
+
+        if (event.key === 'Enter') {
+            //  this.props.parentHandle(event.target.value);
+            
+            if (userInfo.tag) {
+                userInfo.tag.push(event.target.value)
+            }
+            else {
+                userInfo.tag = [];
+                userInfo.tag[0] = event.target.value;
+            }
+            
+            
+            
+            event.preventDefault();
+
+            this.setState({
+                tagSearch: ''
+            })
+        }
+    }
+
     render() {
         
         const {userInfo, userPic, userAverage} = this.props;
-        const {company, email, firstName, lastName, skill} = userInfo;
-        const {buttonValue, loadGrades} = this.state;
+        const {company, email, firstName, lastName, skill, tag} = userInfo;
+        const {buttonValue, loadGrades, tagSearch} = this.state;
         return (
             <div className="userCard">
                 <div>
@@ -52,6 +77,23 @@ class User extends Component {
                                 <p key={i}>Test {i+1}: &nbsp;&nbsp;&nbsp;{item}%</p>)))
                             : null
                         }
+                        <div className={tag ? 'tags' : 'nothing'}>
+                        {
+                            tag.length > 1 ?
+                            (tag.map((item, index) => (
+                                <div key={index}>{item}&nbsp; </div>
+                            ))) 
+                            : <div>{tag} </div>
+                        }
+                        </div>
+                        <input 
+                            type="text"
+                            className="tagSearch"
+                            placeholder="Add a tag"
+                            onChange={e => this.setState({tagSearch: e.target.value})}
+                            value={tagSearch}
+                            onKeyPress={e => this.onTrigger(e)}
+                        />
                     </div>
                 </div> 
                 
