@@ -24,7 +24,6 @@ class App extends Component {
     .catch(err => {
       console.log('Error:' + err)
     })
-    
   }
 
   componentDidMount() {
@@ -57,10 +56,6 @@ class App extends Component {
     )
   }
 
-  search = (event) => {
-
-  }
-
   render () {
     const {jsonUsers, query} = this.state;
 
@@ -72,14 +67,12 @@ class App extends Component {
             className="searchBar"
             placeholder="Search by name"
             onChange={e => this.setState({query: e.target.value})}
-            
             value={query}
           />
         </div>
         {
           jsonUsers.filter((item) => {
             if (query === '') {
-              console.log(item)
               return item;
             }
             else if (item.firstName.toLowerCase().includes(query.toLowerCase())) {
@@ -97,8 +90,9 @@ class App extends Component {
                 userData: user,
                 userPic: this.getUserPic(user),
                 userAverage: this.getUserAverage(user.grades),
+                userGrades: user.grades,
+                
               })}
-              
             </div>
           ))
         }

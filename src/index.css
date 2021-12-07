@@ -54,3 +54,23 @@ p {
   font-family: 'Raleway';
   font-size: larger;
 }
+
+.userCard .toggle {
+  margin-left: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.userCard .toggle button{
+  border: none;
+  background: none;
+  font-size: 40px;
+  color: rgba(0, 0, 0, 0.475)
+}
+
+.userCard .toggle button:hover {
+  font-weight: bold;
+  color:rgb(0, 0, 0)
+}
