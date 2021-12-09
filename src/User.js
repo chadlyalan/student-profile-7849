@@ -6,8 +6,9 @@ class User extends Component {
         this.state = {
             loadGrades: false,
             buttonValue: '+',
-            tagSearch: '',
+            tagField: '',
         }
+        this.props.userInfo.tag = [];
     }
 
     handleToggleButton = () => {
@@ -27,23 +28,24 @@ class User extends Component {
         const {userInfo} = this.props;
 
         if (event.key === 'Enter') {
-            //  this.props.parentHandle(event.target.value);
             
             if (userInfo.tag) {
                 userInfo.tag.push(event.target.value)
             }
             else {
-                userInfo.tag = [];
                 userInfo.tag[0] = event.target.value;
             }
+            //all[key].tag = userInfo.tag;
+            //console.log(all[index]);
+            
+            // this.props.parentHandle(index);
             
             
-            
-            event.preventDefault();
 
             this.setState({
-                tagSearch: ''
+                tagField: ''
             })
+
         }
     }
 
@@ -51,7 +53,7 @@ class User extends Component {
         
         const {userInfo, userPic, userAverage} = this.props;
         const {company, email, firstName, lastName, skill, tag} = userInfo;
-        const {buttonValue, loadGrades, tagSearch} = this.state;
+        const {buttonValue, loadGrades, tagField} = this.state;
         return (
             <div className="userCard">
                 <div>
@@ -77,9 +79,9 @@ class User extends Component {
                                 <p key={i}>Test {i+1}: &nbsp;&nbsp;&nbsp;{item}%</p>)))
                             : null
                         }
-                        <div className={tag ? 'tags' : 'nothing'}>
+                        <div className={tag.length > 0 ? 'tags' : 'nothing'}>
                         {
-                            tag.length > 1 ?
+                            tag.length >= 1 ?
                             (tag.map((item, index) => (
                                 <div key={index}>{item}&nbsp; </div>
                             ))) 
@@ -88,10 +90,10 @@ class User extends Component {
                         </div>
                         <input 
                             type="text"
-                            className="tagSearch"
+                            className="tagField"
                             placeholder="Add a tag"
-                            onChange={e => this.setState({tagSearch: e.target.value})}
-                            value={tagSearch}
+                            onChange={e => this.setState({tagField: e.target.value})}
+                            value={tagField}
                             onKeyPress={e => this.onTrigger(e)}
                         />
                     </div>

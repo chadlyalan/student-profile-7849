@@ -10,7 +10,7 @@ class App extends Component {
     this.state = {
       jsonUsers: [],
       query: '',
-      tag: '',
+      tagQuery: '',
     }
   }
 
@@ -31,11 +31,6 @@ class App extends Component {
     this.fetchData(api)
   }
 
-  // getUserInfo = (data) => {
-  //   const {firstName, lastName, email, company, skill} = data;
-  //   return `${firstName} ${lastName} ${email} ${company} ${skill}`
-  // }
-
   getUserPic = (data) => {
     const {pic} = data;
     return `${pic}`
@@ -46,28 +41,70 @@ class App extends Component {
   }
 
   // handleTagSearch = (childData) => {
-  //   this.setState({tag: childData})
+  //   console.log(this.state.jsonUsers[childData])
   // }
 
-  renderUser({userData, userPic, userAverage, tagData}) {
-    userData.tag = tagData;
-    console.log(userData);
-   
+  renderUser({userData, userPic, userAverage, key }) {   
 
     return(
       <div> 
         <User
+          index={key}
           userInfo={userData}
           userPic={userPic}
           userAverage={userAverage}
+          all={this.state.jsonUsers}
           parentHandle={this.handleTagSearch}
         />
       </div>
     )
   }
 
+  tagSearch = (array, query) => {
+    let result = [];
+    array.filter((item) => {
+      if (query === '') {
+        return result.push(item);
+      }
+      else if (item.tag.length) {
+        item.tag.map((piece) => {
+          if (piece.toLowerCase().includes(query.toLowerCase())) {
+            return result.push(item);
+          }
+          else {
+            return null;
+          }
+        }) 
+      }
+      
+      return null;
+      
+    })
+    return result;
+  }
+
+  search = (array, searchQuery) => {
+    let result = [];
+    array.filter((item) => {
+      if (searchQuery === '') {
+        return result.push(item);
+      }
+      else if (item.firstName.toLowerCase().includes(searchQuery.toLowerCase())) {
+        return result.push(item)
+      }
+      else if (item.lastName.toLowerCase().includes(searchQuery.toLowerCase())) {
+        return result.push(item)
+      }
+      else {
+        return null;
+      }
+    })
+      
+    return result;
+  }
+
   render () {
-    const {jsonUsers, query, tag} = this.state;
+    const {jsonUsers, query, tagQuery} = this.state;
 
     return (
       <div className="App">
@@ -82,39 +119,25 @@ class App extends Component {
           <input 
             type="text"
             className="searchBar"
-            placeholder="Search by name"
-            onChange={e => this.setState({query: e.target.value})}
-            value={query}
+            placeholder="Search by tag"
+            onChange={e => this.setState({tagQuery: e.target.value})}
+            value={tagQuery}
           />
         </div>
         {
-          jsonUsers.filter((item) => {
-            if (query === '') {
-              return item;
-            }
-            else if (item.firstName.toLowerCase().includes(query.toLowerCase())) {
-              return item
-            }
-            else if (item.lastName.toLowerCase().includes(query.toLowerCase())) {
-              return item
-            }
-            else {
-              return null;
-            }
-          }).map((user, index) => (
+          this.tagSearch(this.search(jsonUsers, query),tagQuery)
+          .map((user, index) => (
             <div key={index}>
               {this.renderUser({
+                key: index,
                 userData: user,
                 userPic: this.getUserPic(user),
                 userAverage: this.getUserAverage(user.grades),
                 userGrades: user.grades,
-                tagData: tag,
                 })
-                  
-                }
-                
+              }   
             </div>
-          ))
+    ))
         }
       
       </div>
