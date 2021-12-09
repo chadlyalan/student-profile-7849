@@ -15,7 +15,8 @@ class App extends Component {
   }
 
   fetchData = (key) => {
-    fetch(key)
+    if (this.state.jsonUsers.length < 1){
+      fetch(key)
     .then(res => res.json())
     .then(({students}) => {
       this.setState({
@@ -25,6 +26,7 @@ class App extends Component {
     .catch(err => {
       console.log('Error:' + err)
     })
+    }
   }
 
   componentDidMount() {
@@ -40,9 +42,14 @@ class App extends Component {
     return grades.reduce((a,b) => (Number(a) + Number(b))) / grades.length;
   }
 
-  // handleTagSearch = (childData) => {
-  //   console.log(this.state.jsonUsers[childData])
-  // }
+   handleTagSearch = (childData) => {
+     console.log(childData)
+     this.setState({
+       jsonUsers: childData
+     })
+
+     console.log(this.state.jsonUsers)
+   }
 
   renderUser({userData, userPic, userAverage, key }) {   
 
@@ -67,16 +74,16 @@ class App extends Component {
         return result.push(item);
       }
       else if (item.tag.length) {
-        item.tag.map((piece) => {
+        item.tag.every((piece) => {
           if (piece.toLowerCase().includes(query.toLowerCase())) {
-            return result.push(item);
+            result.push(item);
+            return false;
           }
           else {
-            return null;
+            return true;
           }
         }) 
-      }
-      
+      } 
       return null;
       
     })
@@ -124,7 +131,9 @@ class App extends Component {
             value={tagQuery}
           />
         </div>
+        {console.log('here ', jsonUsers[0])}
         {
+          
           this.tagSearch(this.search(jsonUsers, query),tagQuery)
           .map((user, index) => (
             <div key={index}>

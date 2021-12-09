@@ -8,8 +8,35 @@ class User extends Component {
             buttonValue: '+',
             tagField: '',
         }
-        this.props.userInfo.tag = [];
+        if (!this.props.userInfo.tag) {
+            this.props.userInfo.tag = [];
+        }
     }
+
+    // to do:
+    // clean up user by moving user related functions to user
+    // then make it receive a single user object and have user 
+    // handle the stuff
+
+    // then the parent function receives the new modified user
+    // and app updates the jsonUsers with the new user, remember
+    // there is an ID for each user in that jsonobject
+    // 
+    // when we fetch we can add the attributes at the beginning
+    // instead of the condition of adding .tag 
+    // 
+    // we could also build a key:value map at the beginning
+    // so we can lookup(here the ID is the position in the array)
+    // 
+    //
+    // Possibly make a new Users component that recieves
+    // the entire list of users and renders everything 
+    // without searching.
+    // 
+    // make the parent handler (user update) more generic
+    // to update the json obj
+    //
+    // <Users /> => <User /> => <Tags /> => <Tag />
 
     handleToggleButton = () => {
         const {loadGrades, buttonValue} = this.state;
@@ -25,7 +52,7 @@ class User extends Component {
     }
 
     onTrigger = (event) => {
-        const {userInfo} = this.props;
+        const {userInfo, index, all} = this.props;
 
         if (event.key === 'Enter') {
             
@@ -35,12 +62,10 @@ class User extends Component {
             else {
                 userInfo.tag[0] = event.target.value;
             }
-            //all[key].tag = userInfo.tag;
-            //console.log(all[index]);
+            all[index].tag = userInfo.tag;
+            console.log(all[index].tag);
             
-            // this.props.parentHandle(index);
-            
-            
+            this.props.parentHandle(all);
 
             this.setState({
                 tagField: ''
@@ -64,9 +89,7 @@ class User extends Component {
                     />
                 </div>
                 <div className="userInfo">
-                    <strong className="name">{firstName} {lastName}</strong> 
-
-                    
+                    <strong className="name">{firstName} {lastName}</strong>  
 
                     <div className="data">
                         <p className="email">Email: {email}</p> 
