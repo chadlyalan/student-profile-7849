@@ -8,33 +8,25 @@ class User extends Component {
             buttonValue: '+',
             tagField: '',
         }
-        if (!this.props.userInfo.tag) {
-            this.props.userInfo.tag = [];
-        }
+    }
+ 
+    getUserAverage = (grades) => {
+        return grades.reduce((a,b) => (Number(a) + Number(b))) / grades.length;
     }
 
     // to do:
-    // clean up user by moving user related functions to user
-    // then make it receive a single user object and have user 
-    // handle the stuff
 
     // then the parent function receives the new modified user
     // and app updates the jsonUsers with the new user, remember
     // there is an ID for each user in that jsonobject
     // 
-    // when we fetch we can add the attributes at the beginning
-    // instead of the condition of adding .tag 
     // 
-    // we could also build a key:value map at the beginning
-    // so we can lookup(here the ID is the position in the array)
     // 
     //
     // Possibly make a new Users component that recieves
     // the entire list of users and renders everything 
     // without searching.
     // 
-    // make the parent handler (user update) more generic
-    // to update the json obj
     //
     // <Users /> => <User /> => <Tags /> => <Tag />
 
@@ -52,7 +44,7 @@ class User extends Component {
     }
 
     onTrigger = (event) => {
-        const {userInfo, index, all} = this.props;
+        const {userInfo} = this.props;
 
         if (event.key === 'Enter') {
             
@@ -62,10 +54,7 @@ class User extends Component {
             else {
                 userInfo.tag[0] = event.target.value;
             }
-            all[index].tag = userInfo.tag;
-            console.log(all[index].tag);
-            
-            this.props.parentHandle(all);
+            this.props.updateUser(userInfo);
 
             this.setState({
                 tagField: ''
@@ -76,15 +65,15 @@ class User extends Component {
 
     render() {
         
-        const {userInfo, userPic, userAverage} = this.props;
-        const {company, email, firstName, lastName, skill, tag} = userInfo;
+        const {userInfo} = this.props;
+        const {company, email, firstName, lastName, skill, tag, pic, grades } = userInfo;
         const {buttonValue, loadGrades, tagField} = this.state;
         return (
             <div className="userCard">
                 <div>
                     <img
                         className="picture"
-                        src={userPic}
+                        src={pic}
                         alt=""
                     />
                 </div>
@@ -95,7 +84,7 @@ class User extends Component {
                         <p className="email">Email: {email}</p> 
                         <p className="company">Company: {company}</p> 
                         <p className="skill">Skill: {skill}</p>
-                        <p className="average">Average: {userAverage}%</p>
+                        <p className="average">Average: {this.getUserAverage(grades)}%</p>
                         {
                             loadGrades ?
                             (userInfo.grades.map((item, i) => (

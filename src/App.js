@@ -19,9 +19,14 @@ class App extends Component {
       fetch(key)
     .then(res => res.json())
     .then(({students}) => {
+      students.map((item) => {
+        item.tag = [];
+        return null;
+      })
       this.setState({
         jsonUsers: students,
       })
+      
     })
     .catch(err => {
       console.log('Error:' + err)
@@ -33,35 +38,22 @@ class App extends Component {
     this.fetchData(api)
   }
 
-  getUserPic = (data) => {
-    const {pic} = data;
-    return `${pic}`
-  }
-
-  getUserAverage = (grades) => {
-    return grades.reduce((a,b) => (Number(a) + Number(b))) / grades.length;
-  }
-
-   handleTagSearch = (childData) => {
-     console.log(childData)
+   updateUsers = (user) => {
+     const updatedUsers = this.state.jsonUsers;
+     updatedUsers[user.id - 1] = user;
      this.setState({
-       jsonUsers: childData
+       jsonUsers: updatedUsers
      })
-
      console.log(this.state.jsonUsers)
    }
 
-  renderUser({userData, userPic, userAverage, key }) {   
-
+  renderUser({userData}) {   
     return(
       <div> 
         <User
-          index={key}
           userInfo={userData}
-          userPic={userPic}
-          userAverage={userAverage}
           all={this.state.jsonUsers}
-          parentHandle={this.handleTagSearch}
+          updateUser={this.updateUsers}
         />
       </div>
     )
@@ -131,24 +123,17 @@ class App extends Component {
             value={tagQuery}
           />
         </div>
-        {console.log('here ', jsonUsers[0])}
         {
-          
           this.tagSearch(this.search(jsonUsers, query),tagQuery)
           .map((user, index) => (
             <div key={index}>
               {this.renderUser({
-                key: index,
                 userData: user,
-                userPic: this.getUserPic(user),
-                userAverage: this.getUserAverage(user.grades),
-                userGrades: user.grades,
                 })
               }   
             </div>
-    ))
+          ))
         }
-      
       </div>
     );
   }
