@@ -47,11 +47,19 @@ p {
 }
 
 .searchBox input {
-  width: 100%;
-  display:block;
+  display: block;
+  margin: 0 auto;
+  
+}
+
+input {
+  width: 95%;
   padding: 10px;
   font-family: 'Raleway';
   font-size: larger;
+  border: 0;
+  outline: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.329);
 }
 
 .userCard .toggle {

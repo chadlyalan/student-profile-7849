@@ -44,7 +44,6 @@ class App extends Component {
      this.setState({
        jsonUsers: updatedUsers
      })
-     console.log(this.state.jsonUsers)
    }
 
   renderUser({userData}) {   
